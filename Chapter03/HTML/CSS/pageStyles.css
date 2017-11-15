@@ -3,28 +3,37 @@
 .mic_disabled {
 	opacity: 0.7
 }
-.tutorial {background: #040404; color: #D0D0D0;}
+.tutorial {background: #8bc34a; color: #D0D0D0;}
 
 .navbar {
   margin-bottom: 0px;
 }
 .speech-only {
-	height: 5.0em;
-	overflow: scroll;
-	color: #0000AA;
-	background-color: white;
-	opacity: 0.3;
-	font-size: 1.5em
+	height: 128px;
+    overflow: scroll;
+    color: #000000;
+    background-color: rgba(255, 255, 255, 0.48);
+    /* opacity: 0.3; */
+    font-size: 17px;
+    overflow-x: auto;
+    padding: 10px;
+    overflow-y: auto;
+    text-align: left;
 }
 
 tr.hideRow {display: none;}
 .app_container{
 	height: 95vh;
 	width: 480px;
-	position: absolute;
+/* 	position: absolute;
 	left: 5;
 	top: 30;
-}
+ */
+	margin:0 auto;
+ }
+.app_container .center-padd{
+	padding-bottom:20px; 
+ }
 .analyze_container{
 	height: 95vh;
 	width: 100%;
@@ -55,7 +64,7 @@ tr.hideRow {display: none;}
 	overflow: scroll;
 }
 .cover h1, .cover .h1 { font-size: 3em;}
-.cover .navbar { background-color: #000000;}
+.cover .navbar { background-color: #70a039;}
 .h2 {font-size: 2em;}
 .col-md-6 {width: 470px;}
 .mic_enabled {
@@ -79,3 +88,14 @@ tr.hideRow {display: none;}
 .glyphicon-thumbs-up, .ok {background: #00FF00;}
 .glyphicon-thumbs-down, .fail {background: #FF0000;}
 .glyphicon-warning-sign, .warn {background: #FFFF00;}
+
+
+/*Custom style starts here*/
+.navbar-nav > li > a{
+	font-weight:bold;
+	color:#fff;
+}
+.navbar-nav > li > a:hover{
+	color:#222;
+}
+/*Custom style ends here*/
