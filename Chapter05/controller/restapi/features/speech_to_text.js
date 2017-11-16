@@ -13,40 +13,98 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var extend = require('extend');
-var watson = require('watson-developer-cloud');
-var vcapServices = require('vcap_services');
+/*
+** z2c-speech.js
+*/
 
-var config = require('../../env.json');
+function initPage ()
+{
+  var _mic = $('#microphone'); var _stop = $("#stop");
+  // add a variable for the displayNLC button
+  var readText = $("#readText"); var displayNLC = $("#classifySpeech");
+  var stt_out = $("#speech");
+    _mic.addClass("mic_enabled");
+    _stop.addClass("mic_disabled");
+  var stream = null;
 
-exports.stt_token = function(req, res) {
-  console.log("stt_token entered");
-    var sttConfig = extend(config.speech_to_text, vcapServices.getCredentials('speech_to_text'));
-
-    var sttAuthService = watson.authorization(sttConfig);
-
-    sttAuthService.getToken({
-        url: sttConfig.url
-    }, function(err, token) {
-        if (err) {
-            console.log('Error retrieving token: ', err);
-            res.status(500).send('Error retrieving token');
-            return;
+  _mic.on("click", function ()
+    {
+      var _className = this.className;
+      if(this.className == "mic_enabled")
+      {
+        _mic.addClass("mic_disabled");
+        _mic.removeClass("mic_enabled");
+        _stop.addClass("mic_enabled");
+        _stop.removeClass("mic_disabled");
+        $.when($.get('/api/speech-to-text/token')).done(
+          function (token) {
+            stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+               token: token,
+               outputElement: '#speech' // CSS selector or DOM Element
+             });
+            stream.on('error', function(err) { console.log(err); });
+          });
         }
-        console.log("sending token");
-        res.send(token);
+      });
+
+  _stop.on("click",  function()
+  {
+    console.log("Stopping speech-to-text service...");
+    if (!((typeof(stream) == "undefined") || (stream == null))) {stream.stop(); }
+    _mic.addClass("mic_enabled");
+    _mic.removeClass("mic_disabled");
+    _stop.addClass("mic_disabled");
+    _stop.removeClass("mic_enabled");
+  });
+
+  readText.on("click",  function()
+  {
+    console.log("initiating text-to-speech service...");
+    if (!((typeof(stream) == "undefined") || (stream == null))) {stream.stop(); }
+    _mic.addClass("mic_enabled");
+    _mic.removeClass("mic_disabled");
+    _stop.addClass("mic_disabled");
+    _stop.removeClass("mic_enabled");
+
+    var sessionPermissions = JSON.parse(localStorage.getItem('sessionPermissions')) ? 0 : 1;
+    var textString = $("#chat").val();
+    var voice = 'en-US_AllisonVoice';
+    var audio = $("#a_player").get(0);
+    var synthesizeURL = '/api/text-to-speech/synthesize' +
+      '?voice=' + voice +
+      '&text=' + encodeURIComponent(textString) +
+      '&X-WDC-PL-OPT-OUT=' +  sessionPermissions;
+    audio.src = synthesizeURL
+    audio.pause();
+    audio.addEventListener('canplaythrough', onCanplaythrough);
+    audio.muted = true;
+    audio.play();
+    $('body').css('cursor', 'wait');
+    $('.readText').css('cursor', 'wait');
+    return true;
+  });
+
+  // do something useful when the displayNLC button is clicked
+    displayNLC.on("click",  function()
+    {
+      // specify the html page to load for the classification results
+      var nlcPage = "displayNLC.html";
+      // execute the checkNLC function in the Z2C-NLC.js file, sending it
+      // the page to load and the html element with the output from the 
+      // speech to text process
+      checkNLC(nlcPage, stt_out);
     });
 }
 
-exports.tts_synthesize = function(req, res) {
-  console.log("tts_synthesize entered");
-    var ttsConfig = watson.text_to_speech(config.text_to_speech);
-    var transcript = ttsConfig.synthesize(req.query);
-    transcript.on('response', function(response) {
-      if (req.query.download) {
-        response.headers['content-disposition'] = 'attachment; filename=transcript.ogg';
-      }
-    });
-    transcript.on('error', function(error) { console.log("error encountered: "+error); next(error); });
-    transcript.pipe(res);
+function onCanplaythrough() {
+  console.log('onCanplaythrough');
+  var audio = $('#a_player').get(0);
+  audio.removeEventListener('canplaythrough', onCanplaythrough);
+  try { audio.currentTime = 0; }
+  catch(ex) { // ignore. Firefox just freaks out here for no apparent reason.
+            }
+  audio.controls = true;
+  audio.muted = false;
+  $('html, body').animate({scrollTop: $('#a_player').offset().top}, 500);
+  $('body').css('cursor', 'default');
 }
