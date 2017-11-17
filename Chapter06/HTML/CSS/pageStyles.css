@@ -145,12 +145,19 @@
 }
 tr.hideRow {display: none;}
 .app_container{
-	height: 95vh;
+	height: auto;
 	width: 480px;
-	position: absolute;
-	left: 5;
-	top: 30;
+	margin:0 auto;
+	margin-top:20px;
 }
+#conversation{
+	background-color:#fff;
+	padding:20px;
+	margin-top:20px;
+	margin-bottom:20px;
+	border-radius:10px;
+}
+
 .analyze_container{
 	height: 95vh;
 	width: 100%;
@@ -181,13 +188,18 @@ tr.hideRow {display: none;}
 	overflow: scroll;
 }
 .cover h1, .cover .h1 { font-size: 3em;}
-.cover .navbar { background-color: #000000;}
+.cover .navbar { background-color: #008571;}
 .h2 {font-size: 2em;}
 .col-md-6 {width: 470px;}
 .mic_enabled {
 	opacity: 1;
 }
-
+.navbar-nav > li > a{
+	color:#fff;
+}
+.navbar-nav > li > a:hover{
+	color:#222;
+}
 .watson_dialog {
 	color: blue;
 	font-size: 12px;

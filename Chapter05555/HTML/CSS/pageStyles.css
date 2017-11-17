@@ -1,31 +1,10 @@
 @CHARSET "UTF-8";
 
-.modalDialog {
-	position: fixed;
-	font-family: Arial, Helvetica, sans-serif;
-	top: 0; right: 0; bottom: 0; left: 0;
-	background: rgba(0,0,0,.8); color: #0F0F0F;
-	z-index: 99999;
-	opacity:1;
-	-webkit-transition: opacity 400ms ease-in;
-	-moz-transition: opacity 400ms ease-in;
-	transition: opacity 400ms ease-in;
-}
-
-.modalDialog > div {
-	width: 400px; position: relative; margin: 10% auto;
-	padding: 5px 20px 13px 20px;
-	border-radius: 10px;
-	background: #fff;
-	background: -moz-linear-gradient(#fff, #999);
-	background: -webkit-linear-gradient(#fff, #999);
-	background: -o-linear-gradient(#fff, #999);
-}
 
 .mic_disabled {
 	opacity: 0.7
 }
-.tutorial {background: #8bc34a; color: #404040;}
+.tutorial {background: #8bc34a; color: #D0D0D0;}
 
 .navbar {
   margin-bottom: 0px;
@@ -41,26 +20,19 @@
     padding: 20px;
     overflow-x: auto;
     overflow-y: auto;
-    margin-bottom: 20px;
+	margin-bottom:20px;
 }
 .text-only {
 	wrap: soft;
-    background-color: rgb(255, 255, 255);
-    color: #000000;
-    font-size: 18px;
-    width: 100%;
-    padding: 15px;
-    text-align: left;
-    line-height: 150%;
-    margin-bottom: 40px;
+	background-color: transparent;
+	color: #008571;
+	font-size: 1.15em
 }
 tr.hideRow {display: none;}
 .app_container{
 	height: 95vh;
     width: 480px;
-    position: absolute;
-    left: 33%;
-    top: 56px;
+    margin: 0 auto;
 }
 .analyze_container{
 	height: 95vh;
@@ -116,3 +88,22 @@ tr.hideRow {display: none;}
 .glyphicon-thumbs-up, .ok {background: #00FF00;}
 .glyphicon-thumbs-down, .fail {background: #FF0000;}
 .glyphicon-warning-sign, .warn {background: #FFFF00;}
+
+.navbar-nav > li > a {
+    font-weight: bold;
+    color: #fff;
+}
+.app_container .center-padd {
+    padding-bottom: 20px;
+}
+.text-only {
+	wrap: soft;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
+    font-size: 18px;
+    width: 100%;
+    padding: 15px;
+    text-align: left;
+    line-height: 150%;
+	margin-bottom:40px;
+}
